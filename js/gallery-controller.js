@@ -119,7 +119,12 @@ AFRAME.registerComponent("gallery-controller", (function(){
      */
     Controller.init = function() {
         galleryController = this;
-        navigator.xr.isSessionSupported('immersive-vr').then(onIsSessionSupported);
+        try {
+            navigator.xr.isSessionSupported('immersive-vr').then(onIsSessionSupported);
+        } catch (err) {
+            onIsSessionSupported(false);
+        }
+
     }
 
     /**
