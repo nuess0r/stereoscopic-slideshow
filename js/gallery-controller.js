@@ -32,29 +32,29 @@ AFRAME.registerComponent("gallery-controller", (function(){
         Controller.el = galleryController.el;
         sceneEl = Controller.el.sceneEl;
         sceneMaterial = sceneEl.systems.material;
-        leye = $('#left-image')[0];
-        reye = $('#right-image')[0];
-        $descriptionText = $('#description-text');
+        leye = jQuery('#left-image')[0];
+        reye = jQuery('#right-image')[0];
+        $descriptionText = jQuery('#description-text');
         descriptionText = $descriptionText[0];
-        $scene = $('#scene');
-        $assets = $('#assets');
-        $imageLoading = $('#image-loading');
-        $imageLoadError = $('#image-load-error');
-        $body = $('body');
+        $scene = jQuery('#scene');
+        $assets = jQuery('#assets');
+        $imageLoading = jQuery('#image-loading');
+        $imageLoadError = jQuery('#image-load-error');
+        $body = jQuery('body');
 
         if(Controller.isImmersiveVRSupported){
             $body.addClass('vr-supported');
-            $sceneEntities = $(Controller.el).find('> *');
+            $sceneEntities = jQuery(Controller.el).find('> *');
             $sceneEntities.each((i, entity) => {
                 let position = entity.getAttribute('position');
                 position.y += vrHeadsetImgYOffset;
                 position.z += vrHeadsetImgZOffset;
                 entity.setAttribute('position', position);
             });
-            Utils.setAttributeOnEntityNodelist($('#exit-button a-entity[text]'), 'text', 'value', 'Exit VR');
+            Utils.setAttributeOnEntityNodelist(jQuery('#exit-button a-entity[text]'), 'text', 'value', 'Exit VR');
         }else{
             $body.addClass('vr-unsupported');
-            Utils.setAttributeOnEntityNodelist($('.vr-only'), 'visible', false);
+            Utils.setAttributeOnEntityNodelist(jQuery('.vr-only'), 'visible', false);
         }
         $body.addClass('vr-support-resolved');
 
@@ -73,7 +73,7 @@ AFRAME.registerComponent("gallery-controller", (function(){
     };
 
     const removeStereoImage = function(){
-        let $stereoImage = $(_stereoImage);
+        let $stereoImage = jQuery(_stereoImage);
         if($stereoImage.length){
             let stereoImage = $stereoImage[0];
             stereoImage.onload = stereoImage.onerror = null;
@@ -124,7 +124,6 @@ AFRAME.registerComponent("gallery-controller", (function(){
         } catch (err) {
             onIsSessionSupported(false);
         }
-
     }
 
     /**
@@ -191,7 +190,7 @@ AFRAME.registerComponent("gallery-controller", (function(){
         stereoImage.setAttribute('src', url);
         stereoImage.onload = onImgLoaded;
         stereoImage.onerror = onImageLoadError;
-        $(stereoImage).appendTo($assets);
+        jQuery(stereoImage).appendTo($assets);
         Controller.isLoadingStereoImage = true;
     };
 
