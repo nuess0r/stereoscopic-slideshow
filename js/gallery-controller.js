@@ -12,7 +12,7 @@ AFRAME.registerComponent("gallery-controller", (function(){
     const uiZDistanceStep = 0.5
     const stereoImageId = 'fullsize-image'
     const _stereoImage = '#'+stereoImageId;
-    
+
     let galleryController, sceneEl, leye, reye, $descriptionText, descriptionText,
         $body, $scene, $sceneEntities, $assets, $imageLoading, $imageLoadError, sceneMaterial;
 
@@ -124,6 +124,7 @@ AFRAME.registerComponent("gallery-controller", (function(){
         } catch (err) {
             onIsSessionSupported(false);
         }
+
     }
 
     /**
@@ -153,11 +154,23 @@ AFRAME.registerComponent("gallery-controller", (function(){
         $scene.addClass('hidden');
     };
 
+    /*
+     * We can set the aspect ratio ones with this function
+     * or for each image separately by passing the ratio to showImg
+     */
+    Controller.setAspect = function (aspect) {
+        leye.setAttribute("scale", {x: aspect});
+        reye.setAttribute("scale", {x: aspect});
+    };
 
-    Controller.showImg = function(url, description){
+    Controller.showImg = function(url, description, aspect){
         function onImgLoaded(){
             leye.setAttribute("material", "src", _stereoImage);
             reye.setAttribute("material", "src", _stereoImage);
+            if (aspect != undefined) {
+                leye.setAttribute("scale", {x: aspect});
+                reye.setAttribute("scale", {x: aspect});
+            }
             setStereoImageVisibility(true);
             descriptionText.setAttribute("text", "value", description);
             Utils.setVisibleOnEntityNodelist($descriptionText, true);

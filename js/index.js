@@ -5,6 +5,7 @@
      * Internal properties
      *********************/
     const THUMBNAIL_WIDTH_PX = 450;
+    const ASPECT_RATIO = 1.8;
     const IMG_SERVER = "https://www.iwalkcornwall.co.uk";
     const THUMBNAIL_URL_TEMPLATE = IMG_SERVER+"/images/photos/stereoscopic/{name}.jps/width/"+THUMBNAIL_WIDTH_PX;
     const FULLSIZE_URL_TEMPLATE = IMG_SERVER+"/images/photos/stereoscopic/{name}.jps";
@@ -13,21 +14,21 @@
     const IMG_LIST_URL = ASSETS_PATH + 'image_list.json';
 
     const buttonHoverZoomScale = 0.5;
-    
+
     const requiredNamespaces = [
         'Components.Utils',
         'Components.GalleryController',
         'Components.Controls'
     ];
-    
+
     const supportedControllers = [
         "OculusTouch",
-        "Daydream", 
-        "GearVr", 
-        "MagicLeap", 
-        "OculusGo", 
-        "Vive", 
-        "ViveFocus", 
+        "Daydream",
+        "GearVr",
+        "MagicLeap",
+        "OculusGo",
+        "Vive",
+        "ViveFocus",
         "WindowsMotion"
     ];
 
@@ -78,7 +79,7 @@
     let $imageContainer, $images, maxImgIndex, currentIndex,
         Utils, GalleryController, Controls,
         Controllers = {};
-    
+
     /*********************
      * Internal functions
      *********************/
@@ -91,7 +92,7 @@
         supportedControllers.forEach((controllerName) => {
             namespaces.push(controllerName+'Controls');
         });
-        
+
         onNamespacesLoaded([
             'Components.Utils',
             'Components.GalleryController',
@@ -104,7 +105,7 @@
             supportedControllers.forEach((controllerName) => {
                 Controllers[controllerName] = Components[controllerName+'Controls'];
             });
-            
+
             onLoadedNamespaces();
         });
     }
@@ -171,7 +172,7 @@
         currentIndex = $img.data('index');
         const src = FULLSIZE_URL_TEMPLATE.replace('{name}', $img.data('name')),
             description = $img.attr('alt');
-        GalleryController.showImg(src, description);
+        GalleryController.showImg(src, description, ASPECT_RATIO);
     };
 
     let onWebXrController = function(event){
