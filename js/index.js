@@ -76,7 +76,7 @@
         }
     };
 
-    let $imageContainer, $images, maxImgIndex, currentIndex,
+    let $imageContainer, $images, $currentImage,
         Utils, GalleryController, Controls,
         Controllers = {};
 
@@ -116,8 +116,8 @@
 
         tinykeys(window, {
             "Space": () => {if(GalleryController.isInVR) showNextImage()},
-            "ArrowLeft": () => {if(GalleryController.isInVR) showNextImage()},
-            "ArrowRight": () => {if(GalleryController.isInVR) showPrevImage()},
+            "ArrowRight": () => {if(GalleryController.isInVR) showNextImage()},
+            "ArrowLeft": () => {if(GalleryController.isInVR) showPrevImage()},
         })
 
         const $clickableButtons = $('[data-clickable][data-button]');
@@ -145,6 +145,7 @@
         Utils.addEventListenerToEntityNodeList($('#increase-distance-button'), 'click', GalleryController.moveUiFurtherAway);
         Utils.addEventListenerToEntityNodeList($('#decrease-distance-button'), 'click', GalleryController.moveUiCloser);
 
+        $imageContainer.on('click', '.image', onClickImg);
         $.getJSON(IMG_LIST_URL, onLoadImgList);
     };
 
@@ -154,30 +155,24 @@
                 description = img.description;
             $imageContainer.append(
                 `<span class="image">
-                            <img data-index="${i}" data-name="${img.name}" src="${src}" alt="${description}"/>
+                            <img data-src="${img.src}" src="${img.thumbnail}" alt="${img.description}"/>
                         </span>`
             );
-            maxImgIndex = i;
         });
-        $images = $('img', $imageContainer);
-        $images.on('click', onClickImg);
     };
 
-    let onClickImg = function(e){
-        const $img = $(e.target);
-        showImg($img);
+    let onClickImg = function(){
+        $currentImage = $(this);
+        showImg($currentImage.children('img'));
     }
 
     let showImg = function($img){
-        currentIndex = $img.data('index');
         const src = FULLSIZE_URL_TEMPLATE.replace('{name}', $img.data('name')),
             description = $img.attr('alt');
         GalleryController.showImg(src, description, ASPECT_RATIO);
     };
 
     let onWebXrController = function(event){
-        // console.log("onWebXrController");
-        // console.dir(event);
 
         const detail = event.detail,
             controllerType = detail.controllerType,
@@ -249,19 +244,26 @@
         GalleryController.exitVR();
     };
 
-    let showImageAtIndex = function(index){
-        const $img = $imageContainer.find('[data-index="'+index+'"]');
-        showImg($img);
-    };
-
     let showNextImage = function(){
-        const nextIndex = (currentIndex === maxImgIndex ? 0 : currentIndex+1);
-        showImageAtIndex(nextIndex);
+        var $next = $currentImage.next();
+
+       // If there wasn't a next one, go back to the first.
+        if( $next.length == 0 ) {
+            $next = $currentImage.prevAll().last();
+        }
+        $currentImage = $next;
+        showImg($currentImage.children('img'));
     };
 
     let showPrevImage = function(){
-        const prevIndex = (currentIndex === 0 ? maxImgIndex : currentIndex-1);
-        showImageAtIndex(prevIndex);
+        var $prev = $currentImage.prev();
+
+       // If there wasn't a previous one, go to the last.
+        if( $prev.length == 0 ) {
+            $prev = $currentImage.nextAll().last();
+        }
+        $currentImage = $prev;
+        showImg($currentImage.children('img'));
     };
 
     _constructor();
