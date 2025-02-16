@@ -5,7 +5,7 @@
      * Internal properties
      *********************/
     const THUMBNAIL_WIDTH_PX = 450;
-    const ASPECT_RATIO = 1.8;
+    const ASPECT_RATIO = 0.75;
     const IMG_SERVER = "https://www.iwalkcornwall.co.uk";
     const THUMBNAIL_URL_TEMPLATE = IMG_SERVER+"/images/photos/stereoscopic/{name}.jps/width/"+THUMBNAIL_WIDTH_PX;
     const FULLSIZE_URL_TEMPLATE = IMG_SERVER+"/images/photos/stereoscopic/{name}.jps";
@@ -167,9 +167,7 @@
     }
 
     let showImg = function($img){
-        const src = FULLSIZE_URL_TEMPLATE.replace('{name}', $img.data('name')),
-            description = $img.attr('alt');
-        GalleryController.showImg(src, description, ASPECT_RATIO);
+        GalleryController.showImg($img.data('src'), $img.attr('alt'), ASPECT_RATIO);
     };
 
     let onWebXrController = function(event){
