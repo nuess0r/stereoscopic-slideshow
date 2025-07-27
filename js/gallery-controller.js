@@ -58,6 +58,9 @@ AFRAME.registerComponent("gallery-controller", (function(){
         }
         $body.addClass('vr-support-resolved');
 
+        leye.setAttribute("material", "src", _stereoImage);
+        reye.setAttribute("material", "src", _stereoImage);
+
         sceneEl.addEventListener('enter-vr', Controller.onEnterVR.bind(this), false);
         sceneEl.addEventListener('exit-vr', Controller.onExitVR.bind(this), false);
     };
@@ -80,8 +83,6 @@ AFRAME.registerComponent("gallery-controller", (function(){
             $stereoImage.attr('src', '').remove();
             $stereoImage = stereoImage = null;
         }
-        THREE.Cache.clear();
-        sceneMaterial.clearTextureCache();
         Controller.isLoadingStereoImage = false;
     };
 
@@ -94,18 +95,80 @@ AFRAME.registerComponent("gallery-controller", (function(){
         }
     };
 
+    const loadStereoImage = function(stereoImageId, url, description, aspect){
+        let stereoImage = document.createElement('img');
+        stereoImage.setAttribute('id', stereoImageId);
+        stereoImage.setAttribute('crossorigin', "anonymous");
+        stereoImage.setAttribute('src', url);
+        stereoImage.setAttribute('alt', description);
+        stereoImage.setAttribute('aspect', aspect);
+        stereoImage.onload = onImgLoaded;
+        stereoImage.onerror = onImageLoadError;
+        jQuery(stereoImage).appendTo($assets);
+    };
+
     const unloadStereoImage = function(){
-        unloadTextureFromEyePlane(leye);
-        unloadTextureFromEyePlane(reye);
         removeStereoImage();
-        leye.setAttribute("material", "src", '');
-        reye.setAttribute("material", "src", '');
         setStereoImageVisibility(false);
     };
 
     const setStereoImageVisibility = function(visible){
         leye.setAttribute("visible", visible)
         reye.setAttribute("visible", visible)
+    };
+
+    const onImgLoaded = function (){
+        let $stereoImage = jQuery(_stereoImage);
+        if($stereoImage.length){
+            let stereoImage = $stereoImage[0];
+            //LOAD TEXTURE and on completion apply it on plane
+            new THREE.TextureLoader().load(stereoImage.getAttribute('src'),
+                texture => {
+                    texture.repeat = { x: 0.5, y: 1 };
+                    //Update Texture
+                    leye.getObject3D("mesh").material.map = texture;
+                    leye.getObject3D("mesh").material.map.needsUpdate = true;
+                },
+                error => {
+                    //Error CallBack
+                    console.log("An error happened for left image" + error);
+                }
+            );
+            new THREE.TextureLoader().load(stereoImage.getAttribute('src'),
+                texture => {
+                    texture.repeat = { x: 0.5, y: 1 };
+                    texture.offset = { x: 0.5, y: 0 };
+                    //Update Texture
+                    reye.getObject3D("mesh").material.map = texture;
+                    reye.getObject3D("mesh").material.map.needsUpdate = true;
+                },
+                error => {
+                    //Error CallBack
+                    console.log("An error happened for right image" + error);
+                }
+            );
+            aspect = stereoImage.getAttribute('aspect');
+            if (aspect != undefined && aspect != null) {
+                leye.setAttribute("scale", {x: aspect});
+                reye.setAttribute("scale", {x: aspect});
+            }
+            setStereoImageVisibility(true);
+            Utils.setVisibleOnEntityNodelist($descriptionText, true);
+            Utils.setVisibleOnEntityNodelist($imageLoading, false);
+            Utils.setVisibleOnEntityNodelist($imageLoadError, false);
+            Controller.isLoadingStereoImage = false;
+
+            if(!Controller.isInVR && Controller.shouldEnterVR) Controller.enterVR();
+        }
+    };
+
+    const onImageLoadError = function (){
+        unloadStereoImage();
+        Utils.setVisibleOnEntityNodelist($descriptionText, false);
+        Utils.setVisibleOnEntityNodelist($imageLoading, false);
+        Utils.setVisibleOnEntityNodelist($imageLoadError, true);
+
+        if(!Controller.isInVR && Controller.shouldEnterVR) Controller.enterVR();
     };
 
     /*********************
@@ -124,7 +187,6 @@ AFRAME.registerComponent("gallery-controller", (function(){
         } catch (err) {
             onIsSessionSupported(false);
         }
-
     }
 
     /**
@@ -164,46 +226,15 @@ AFRAME.registerComponent("gallery-controller", (function(){
     };
 
     Controller.showImg = function(url, description, aspect){
-        function onImgLoaded(){
-            leye.setAttribute("material", "src", _stereoImage);
-            reye.setAttribute("material", "src", _stereoImage);
-            if (aspect != undefined) {
-                leye.setAttribute("scale", {x: aspect});
-                reye.setAttribute("scale", {x: aspect});
-            }
-            setStereoImageVisibility(true);
-            descriptionText.setAttribute("text", "value", description);
-            Utils.setVisibleOnEntityNodelist($descriptionText, true);
-            Utils.setVisibleOnEntityNodelist($imageLoading, false);
-            Utils.setVisibleOnEntityNodelist($imageLoadError, false);
-            Controller.isLoadingStereoImage = false;
-
-            if(!Controller.isInVR && Controller.shouldEnterVR) Controller.enterVR();
-        }
-
-        function onImageLoadError(){
-            unloadStereoImage();
-            Utils.setVisibleOnEntityNodelist($descriptionText, false);
-            Utils.setVisibleOnEntityNodelist($imageLoading, false);
-            Utils.setVisibleOnEntityNodelist($imageLoadError, true);
-
-            if(!Controller.isInVR && Controller.shouldEnterVR) Controller.enterVR();
-        }
-
         Utils.setVisibleOnEntityNodelist($descriptionText, false);
         Utils.setVisibleOnEntityNodelist($imageLoading, true);
         Utils.setVisibleOnEntityNodelist($imageLoadError, false);
         if(!Controller.isInVR) Controller.enterVR();
 
         unloadStereoImage();
+        loadStereoImage(stereoImageId, url, description, aspect);
 
-        let stereoImage = document.createElement('img');
-        stereoImage.setAttribute('id', stereoImageId);
-        stereoImage.setAttribute('crossorigin', "anonymous");
-        stereoImage.setAttribute('src', url);
-        stereoImage.onload = onImgLoaded;
-        stereoImage.onerror = onImageLoadError;
-        jQuery(stereoImage).appendTo($assets);
+        descriptionText.setAttribute("text", "value", description);
         Controller.isLoadingStereoImage = true;
     };
 

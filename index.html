@@ -4,13 +4,11 @@
     <title>Stereoscopic slideshow</title>
     <link rel="shortcut icon" href="favicon.png">
 
-    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-    <!-- <script src="lib/aframe/aframe.min.js"></script> -->
+    <script src="https://aframe.io/releases/1.7.1/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-stereo-component@1.4.0/dist/aframe-stereo-component.min.js"></script>
     <script src="https://unpkg.com/aframe-event-set-component@4.2.1/dist/aframe-event-set-component.min.js"></script>
-    <script src="https://unpkg.com/aframe-layout-component@5.3.0/dist/aframe-layout-component.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://unpkg.com/tinykeys@1.2.0/dist/tinykeys.umd.js"></script>
-    <script src="lib/aframe-stereo-component.js"></script>
     <script src="js/namespace.js"></script>
     <script src="js/gallery-controller.js"></script>
     <script src="js/utils.js"></script>
@@ -28,7 +26,9 @@
     <link rel="stylesheet" type="text/css" href="css/index.css">
   </head>
   <body>
-    <div id="assets"></div>
+    <div id="assets">
+      <img id="fullsize-image" crossorigin="anonymous" src="assets/sbs-rl.jps" alt="Test image" aspect="2.97">
+    </div>
     <div id="mask"></div>
     <a-scene id="scene" class="hidden" vr-mode-ui="enabled: false" >
       <a-entity id="head" camera position="0 0 0" stereocam="eye:left;"></a-entity>
@@ -39,14 +39,14 @@
         <a-entity id="image-loading" visible="false" position="0 0 -1" text="color: white; align: center; value: Loading image..."></a-entity>
         <a-entity id="image-load-error" visible="false" position="0 0 -1" text="color: red; align: center; value: Error loading image"></a-entity>
         <a-plane id="left-image"
-          material="repeat:0.5 1"
+          material="repeat:0.5 1; src: #fullsize-image"
           scale="2 1 1"
           position="0 0 -1"
           stereo="eye:left"
         >
         </a-plane>
         <a-plane id="right-image"
-          material="repeat:0.5 1; offset: 0.5 0"
+          material="repeat:0.5 1; offset: 0.5 0; src: #fullsize-image"
           scale="2 1 1"
           position="0 0 -1"
           stereo="eye: right"

@@ -116,8 +116,8 @@
 
         tinykeys(window, {
             "Space": () => {if(GalleryController.isInVR) showNextImage()},
-            "ArrowRight": () => {if(GalleryController.isInVR) showPrevImage()},
-            "ArrowLeft": () => {if(GalleryController.isInVR) showNextImage()},
+            "ArrowRight": () => {if(GalleryController.isInVR) showNextImage()},
+            "ArrowLeft": () => {if(GalleryController.isInVR) showPrevImage()},
         })
 
         const $clickableButtons = $('[data-clickable][data-button]');
