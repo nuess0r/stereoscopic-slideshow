@@ -14,7 +14,8 @@ AFRAME.registerComponent("gallery-controller", (function(){
     const _stereoImage = '#'+stereoImageId;
 
     let galleryController, sceneEl, leye, reye, $descriptionText, descriptionText,
-        $body, $scene, $sceneEntities, $assets, $imageLoading, $imageLoadError, sceneMaterial;
+        $body, $scene, $mask, $sceneEntities, $assets, $imageLoading,
+        $imageLoadError, sceneMaterial;
 
     /*********************
      * Public properties
@@ -37,6 +38,7 @@ AFRAME.registerComponent("gallery-controller", (function(){
         $descriptionText = jQuery('#description-text');
         descriptionText = $descriptionText[0];
         $scene = jQuery('#scene');
+        $mask = jQuery('#mask');
         $assets = jQuery('#assets');
         $imageLoading = jQuery('#image-loading');
         $imageLoadError = jQuery('#image-load-error');
@@ -204,6 +206,7 @@ AFRAME.registerComponent("gallery-controller", (function(){
      */
     Controller.onEnterVR = function(event){
         Controller.isInVR = true;
+        $mask.removeClass('hidden');
         $scene.removeClass('hidden');
     };
 
@@ -214,6 +217,7 @@ AFRAME.registerComponent("gallery-controller", (function(){
         Controller.isInVR = false;
         unloadStereoImage();
         $scene.addClass('hidden');
+        $mask.addClass('hidden');
     };
 
     /*
