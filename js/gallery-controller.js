@@ -128,6 +128,7 @@ AFRAME.registerComponent("gallery-controller", (function(){
             textureLoader.load(stereoImage.getAttribute('src'),
                 texture => {
                     texture.repeat = { x: 0.5, y: 1 };
+                    texture.offset = { x: 0.5, y: 0 };
                     //Update Texture
                     leye.getObject3D("mesh").material.map = texture;
                     leye.getObject3D("mesh").material.map.needsUpdate = true;
@@ -140,7 +141,6 @@ AFRAME.registerComponent("gallery-controller", (function(){
             textureLoader.load(stereoImage.getAttribute('src'),
                 texture => {
                     texture.repeat = { x: 0.5, y: 1 };
-                    texture.offset = { x: 0.5, y: 0 };
                     //Update Texture
                     reye.getObject3D("mesh").material.map = texture;
                     reye.getObject3D("mesh").material.map.needsUpdate = true;
