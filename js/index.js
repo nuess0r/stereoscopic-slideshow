@@ -155,7 +155,7 @@
                 description = img.description;
             $imageContainer.append(
                 `<span class="image">
-                            <img data-src="${img.src}" src="${img.thumbnail}" alt="${img.description}"/>
+                            <img data-src="${img.src}" src="${img.thumbnail}" alt="${img.description}" data-aspect="${img.aspect}"/>
                         </span>`
             );
         });
@@ -167,7 +167,7 @@
     }
 
     let showImg = function($img){
-        GalleryController.showImg($img.data('src'), $img.attr('alt'), ASPECT_RATIO);
+        GalleryController.showImg($img.data('src'), $img.attr('alt'), $img.data('aspect'));
     };
 
     let onWebXrController = function(event){
