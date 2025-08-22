@@ -36,8 +36,8 @@
 
       <!-- in VR mode, the first box is displayed only in the left eye, the second one in the right eye -->
       <a-entity gallery-controller>
-        <a-entity id="image-loading" visible="false" position="0 0 -1" text="color: white; align: center; value: Loading image..."></a-entity>
-        <a-entity id="image-load-error" visible="false" position="0 0 -1" text="color: red; align: center; value: Error loading image"></a-entity>
+        <a-entity id="image-loading" visible="false" position="0 0 -1.5" text="color: white; align: center; value: Loading image..."></a-entity>
+        <a-entity id="image-load-error" visible="false" position="0 0 -1.5" text="color: red; align: center; value: Error loading image"></a-entity>
         <a-plane id="left-image"
           material="repeat:0.5 1; offset: 0.5 0; src: #fullsize-image"
           scale="2 1 1"
@@ -51,16 +51,16 @@
           position="0 0 -1.5"
           stereo="eye: right"
         ></a-plane>
-        <a-entity id="description-text" position="0 -0.6 -1" scale="2 2 2"  text="align: center; wrapCount: 80;"></a-entity>
+        <a-entity id="description-text" position="0 -0.6 -1.5" scale="2 2 2"  text="align: center; wrapCount: 80;"></a-entity>
 
-        <a-plane id="previous-button" material="color: white" position="-1.1 0 -1" width="0.1" height="0.1"
+        <a-plane id="previous-button" material="color: white" position="-1.1 0 -1.5" width="0.1" height="0.1"
                  data-clickable data-button
                  event-set__enter="_event: mouseenter;"
                  event-set__leave="_event: mouseleave;"
         >
           <a-entity text="color: black; align: center; value: &lt;"></a-entity>
         </a-plane>
-        <a-plane id="next-button" material="color: white" position="1.1 0 -1" width="0.1" height="0.1"
+        <a-plane id="next-button" material="color: white" position="1.1 0 -1.5" width="0.1" height="0.1"
                  data-clickable data-button
                  event-set__enter="_event: mouseenter;"
                  event-set__leave="_event: mouseleave;"
@@ -68,14 +68,14 @@
           <a-entity text="color: black; align: center; value: &gt;"></a-entity>
         </a-plane>
 
-        <a-plane id="increase-distance-button" class="distance-button vr-only" material="color: white" position="-1.1 0.6 -1" width="0.1" height="0.1"
+        <a-plane id="increase-distance-button" class="distance-button vr-only" material="color: white" position="-1.1 0.6 -1.5" width="0.1" height="0.1"
                  data-clickable data-button
                  event-set__enter="_event: mouseenter;"
                  event-set__leave="_event: mouseleave;"
         >
           <a-entity text="color: black; align: center; value: -"></a-entity>
         </a-plane>
-        <a-plane id="decrease-distance-button" class="distance-button vr-only" material="color: white" position="1.1 0.6 -1" width="0.1" height="0.1"
+        <a-plane id="decrease-distance-button" class="distance-button vr-only" material="color: white" position="1.1 0.6 -1.5" width="0.1" height="0.1"
                  data-clickable data-button
                  event-set__enter="_event: mouseenter;"
                  event-set__leave="_event: mouseleave;"
@@ -83,7 +83,7 @@
           <a-entity text="color: black; align: center; value: +"></a-entity>
         </a-plane>
 
-        <a-plane id="exit-button" material="color: white" position="0 0.6 -1" width="0.3" height="0.1"
+        <a-plane id="exit-button" material="color: white" position="0 0.6 -1.5" width="0.3" height="0.1"
                  data-clickable data-button
                  event-set__enter="_event: mouseenter;"
                  event-set__leave="_event: mouseleave;"
@@ -93,7 +93,7 @@
 
       </a-entity>
 
-      <!--<a-plane id="help" material="color: black" position="0 0 -1" width="2" height="1">
+      <!--<a-plane id="help" material="color: black" position="0 0 -1.5" width="2" height="1">
         <a-entity
                 text="width: 4; color: white; align: left; value: Test"
         ></a-entity>
@@ -105,7 +105,7 @@
 
       </a-entity>
       <a-entity
-              position="0 0 -1"
+              position="0 0 -1.5"
               geometry="primitive: plane; height: auto; width: auto"
               material="color: blue"
               text="width: 2; color: white; align: left; value: Test"

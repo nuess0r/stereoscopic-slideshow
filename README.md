@@ -4,7 +4,7 @@ Stereoscopic slideshow
 This repo demonstrates how a slideshow can be created to render stereoscopic side-by-side images in 3D using a VR headset.
 It uses [A-frame](https://aframe.io/) and specifically [aframe-stereo-component](https://github.com/oscarmarinmiro/aframe-stereo-component) as building blocks.
 
-The SPA loads a set of side-by-side images in JPS (JPEG Stereo) format from a web server which are displayed as 2D thumbnails in the page.
+The Stereoscopic slideshow loads a set of side-by-side crossed-eye images in JPS (JPEG Stereo) format from a web server which are displayed as 2D thumbnails in the page.
 Clicking one of the images launches the slideshow in immersive VR using the browser's [WebXR API](https://developer.mozilla.org/en-US/docs/Web/API/WebXR_Device_API) and displays the selected image in the slideshow UI.
 
 VR headsets with stereo displays will render each half of the side-by-side image to the relevant eye, so it appears to the viewer in stereoscopic 3D.
@@ -20,3 +20,8 @@ You can view the slideshow demo here: https://brain4free.org/stereoscopic-slides
 ## Screenshots
 <img src="screenshots/thumbnails.jpg" />
 <img src="screenshots/slideshow.jpg" />
+
+# Credits
+
+This is a fork of the proof-of-concept Stereoscopic slideshow by Dave Alden.
+Thank you Dave for showing that world, that it is is now technically doable without the need of headset specific application development.
