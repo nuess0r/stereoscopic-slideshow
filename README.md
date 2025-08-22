@@ -23,5 +23,12 @@ You can view the slideshow demo here: https://brain4free.org/stereoscopic-slides
 
 # Credits
 
-This is a fork of the proof-of-concept Stereoscopic slideshow by Dave Alden.
-Thank you Dave for showing that world, that it is is now technically doable without the need of headset specific application development.
+This is a fork of the proof-of-concept Stereoscopic slideshow by [Dave Alden](https://github.com/dpa99c/stereoscopic-slideshow).
+Thank you Dave for showing the world, that it is is now technically doable without the need of headset specific application development.
+
+# Why a fork?
+
+The original project contains hard coded URLs, assumptions about image aspect ratio, too generic names for styles and classes.
+This makes it impossible to integrate that code as is into other websites.
+
+The intention of this fork is to restructure and refactor the code so it then can be used easily by other web developers. Think about it like a 3D version of the well known [Lightbox2](https://lokeshdhakar.com/projects/lightbox2/) script to show 2D images in a nice way.
